@@ -119,51 +119,54 @@ $contacts = $conn->query("SELECT * FROM contacts ORDER BY id DESC LIMIT 10");
 <!-- Active Services Table with Actions -->
 <div class="card" style="margin-top: 30px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
     <h3 style="margin-bottom: 15px; color: #1e293b;">📋 Active Services List</h3>
-    <table style="width: 100%; border-collapse: collapse; text-align: left;">
-        <thead>
-            <tr style="border-bottom: 2px solid #e2e8f0; color: #64748b; font-size: 13px;">
-                <th style="padding: 10px;">Image</th>
-                <th style="padding: 10px;">Title</th>
-                <th style="padding: 10px;">Category</th>
-                <th style="padding: 10px;">Price</th>
-                <th style="padding: 10px; text-align: center;">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            include_once 'db.php';
-            $query = "SELECT services.*, categories.name as category_name 
-                      FROM services 
-                      LEFT JOIN categories ON services.category_id = categories.id 
-                      ORDER BY services.id DESC";
-            $result = mysqli_query($conn, $query);
+    <!-- Added responsive wrapper so table doesn't break out on mobile screens -->
+    <div class="table-responsive">
+        <table style="width: 100%; min-width: 600px; border-collapse: collapse; text-align: left;">
+            <thead>
+                <tr style="border-bottom: 2px solid #e2e8f0; color: #64748b; font-size: 13px;">
+                    <th style="padding: 10px;">Image</th>
+                    <th style="padding: 10px;">Title</th>
+                    <th style="padding: 10px;">Category</th>
+                    <th style="padding: 10px;">Price</th>
+                    <th style="padding: 10px; text-align: center;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                include_once 'db.php';
+                $query = "SELECT services.*, categories.name as category_name 
+                          FROM services 
+                          LEFT JOIN categories ON services.category_id = categories.id 
+                          ORDER BY services.id DESC";
+                $result = mysqli_query($conn, $query);
 
-            if ($result && mysqli_num_rows($result) > 0) {
-                while ($row = mysqli_fetch_assoc($result)) {
-                    $imgSrc = !empty($row['image']) 
-                        ? (filter_var($row['image'], FILTER_VALIDATE_URL) ? $row['image'] : 'uploads/' . $row['image'])
-                        : 'https://via.placeholder.com/60x60?text=No+Img';
-                    ?>
-                    <tr style="border-bottom: 1px solid #f1f5f9; font-size: 14px;">
-                        <td style="padding: 10px;">
-                            <img src="<?php echo $imgSrc; ?>" alt="service" style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px;">
-                        </td>
-                        <td style="padding: 10px; font-weight: 600; color: #0f172a;"><?php echo htmlspecialchars($row['title']); ?></td>
-                        <td style="padding: 10px;"><span style="background: #e0f2fe; color: #0369a1; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;"><?php echo htmlspecialchars($row['category_name']); ?></span></td>
-                        <td style="padding: 10px; font-weight: 700; color: #16a34a;">Rs. <?php echo number_format($row['price']); ?></td>
-                        <td style="padding: 10px; text-align: center;">
-                            <a href="edit_service.php?id=<?php echo $row['id']; ?>" style="background: #2563eb; color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 12px; font-weight: 600; margin-right: 5px;">Edit</a>
-                            <a href="delete_service.php?id=<?php echo $row['id']; ?>" onclick="return confirm('Kiya aap is service ko delete karna chahte hain?');" style="background: #dc2626; color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 12px; font-weight: 600;">Delete</a>
-                        </td>
-                    </tr>
-                    <?php
+                if ($result && mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $imgSrc = !empty($row['image']) 
+                            ? (filter_var($row['image'], FILTER_VALIDATE_URL) ? $row['image'] : 'uploads/' . $row['image'])
+                            : 'https://via.placeholder.com/60x60?text=No+Img';
+                        ?>
+                        <tr style="border-bottom: 1px solid #f1f5f9; font-size: 14px;">
+                            <td style="padding: 10px;">
+                                <img src="<?php echo $imgSrc; ?>" alt="service" style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px;">
+                            </td>
+                            <td style="padding: 10px; font-weight: 600; color: #0f172a;"><?php echo htmlspecialchars($row['title']); ?></td>
+                            <td style="padding: 10px;"><span style="background: #e0f2fe; color: #0369a1; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; white-space: nowrap;"><?php echo htmlspecialchars($row['category_name']); ?></span></td>
+                            <td style="padding: 10px; font-weight: 700; color: #16a34a; white-space: nowrap;">Rs. <?php echo number_format($row['price']); ?></td>
+                            <td style="padding: 10px; text-align: center; white-space: nowrap;">
+                                <a href="edit_service.php?id=<?php echo $row['id']; ?>" style="background: #2563eb; color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 12px; font-weight: 600; margin-right: 5px; display: inline-block;">Edit</a>
+                                <a href="delete_service.php?id=<?php echo $row['id']; ?>" onclick="return confirm('Kiya aap is service ko delete karna chahte hain?');" style="background: #dc2626; color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 12px; font-weight: 600; display: inline-block;">Delete</a>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                } else {
+                    echo "<tr><td colspan='5' style='text-align: center; padding: 15px; color: #64748b;'>No services found.</td></tr>";
                 }
-            } else {
-                echo "<tr><td colspan='5' style='text-align: center; padding: 15px; color: #64748b;'>No services found.</td></tr>";
-            }
-            ?>
-        </tbody>
-    </table>
+                ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 
     <!-- Recent Customer Inquiries -->
