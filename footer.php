@@ -1,88 +1,119 @@
 <?php
-// NexusDigital - Global Footer Component
-// Renders global website footer, quick links, and contact information
+// Smart Footer - Shows detailed footer only on main page (index.php)
+$current_page = basename($_SERVER['PHP_SELF']);
+$is_home_page = ($current_page == 'index.php' || $current_page == '');
 ?>
-<footer class="bg-dark text-light pt-5 pb-4 mt-5 border-top border-secondary">
 
-<footer class="bg-dark text-light pt-5 pb-4 mt-5 border-top border-secondary">
+<footer class="mt-auto py-4 border-top footer-custom-bg">
     <div class="container">
-        <div class="row g-4">
-            <!-- Col 1: Brand Info -->
-            <div class="col-lg-4 col-md-6">
-                <h4 class="text-white fw-bold mb-3"><i class="fa-solid fa-cube text-info me-2"></i>Nexus<span class="text-info">Digital</span></h4>
-                <p class="text-secondary small pe-lg-3">
-                    NexusDigital is a premier software engineering firm delivering scalable web applications, custom enterprise solutions, high-availability database architectures, and cloud services for modern businesses.
-                </p>
-                <div class="d-flex gap-3 mt-3">
-                    <a href="#" class="text-secondary fs-5"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" class="text-secondary fs-5"><i class="fab fa-github"></i></a>
-                    <a href="#" class="text-secondary fs-5"><i class="fab fa-twitter"></i></a>
+        
+        <?php if ($is_home_page): ?>
+            <!-- FULL DETAILED FOOTER (Only visible on Main / Index Page) -->
+            <div class="row g-4 py-3">
+                <div class="col-lg-4">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="fa-solid fa-cube text-primary fs-4"></i>
+                        <span class="fw-extrabold fs-5 footer-heading">NexusDigital</span>
+                    </div>
+                    <p class="small footer-text mb-3">Enterprise Web Architecture & Custom PHP/MySQL Software Engineering Platform.</p>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-sm btn-outline-primary rounded-circle"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="btn btn-sm btn-outline-primary rounded-circle"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="#" class="btn btn-sm btn-outline-primary rounded-circle"><i class="fa-solid fa-globe"></i></a>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h6 class="fw-bold mb-3 footer-heading">Quick Navigation</h6>
+                    <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+                        <li><a href="index.php" class="text-decoration-none footer-link">Home Page</a></li>
+                        <li><a href="about.php" class="text-decoration-none footer-link">About Us</a></li>
+                        <li><a href="services.php" class="text-decoration-none footer-link">Services Portfolio</a></li>
+                        <li><a href="contact.php" class="text-decoration-none footer-link">Contact Support</a></li>
+                        <li><a href="admin_login.php" class="text-decoration-none footer-link">Admin Portal</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <h6 class="fw-bold mb-3 footer-heading">Core Expertise</h6>
+                    <ul class="list-unstyled small d-flex flex-column gap-2 mb-0 footer-text">
+                        <li><i class="fa-solid fa-chevron-right extra-small me-1 text-primary"></i> Full-Stack PHP Logic</li>
+                        <li><i class="fa-solid fa-chevron-right extra-small me-1 text-primary"></i> Relational MySQL Schemas</li>
+                        <li><i class="fa-solid fa-chevron-right extra-small me-1 text-primary"></i> OWASP Security Hardening</li>
+                        <li><i class="fa-solid fa-chevron-right extra-small me-1 text-primary"></i> Admin CRUD Dashboards</li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h6 class="fw-bold mb-3 footer-heading">Headquarters</h6>
+                    <p class="small footer-text mb-1"><i class="fa-solid fa-location-dot me-2 text-primary"></i> Zarghoon Road, Quetta, Pakistan</p>
+                    <p class="small footer-text mb-1"><i class="fa-solid fa-envelope me-2 text-primary"></i> contact@nexusdigital.pk</p>
+                    <p class="small footer-text mb-0"><i class="fa-solid fa-phone me-2 text-primary"></i> +92 (81) 283-9102</p>
                 </div>
             </div>
+            <hr class="my-3 footer-divider">
+        <?php endif; ?>
 
-            <!-- Col 2: Navigation Links -->
-            <div class="col-lg-2 col-md-6">
-                <h6 class="text-uppercase text-white fw-bold mb-3">Quick Links</h6>
-                <ul class="list-unstyled small">
-                    <li class="mb-2"><a href="index.php" class="text-secondary text-decoration-none">Home Page</a></li>
-                    <li class="mb-2"><a href="about.php" class="text-secondary text-decoration-none">About Company</a></li>
-                    <li class="mb-2"><a href="services.php" class="text-secondary text-decoration-none">Services & Pricing</a></li>
-                    <li class="mb-2"><a href="contact.php" class="text-secondary text-decoration-none">Get In Touch</a></li>
-                    <li class="mb-2"><a href="admin_login.php" class="text-secondary text-decoration-none">Admin Login</a></li>
-                </ul>
-            </div>
-
-            <!-- Col 3: Core Capabilities -->
-            <div class="col-lg-3 col-md-6">
-                <h6 class="text-uppercase text-white fw-bold mb-3">Core Expertise</h6>
-                <ul class="list-unstyled small text-secondary">
-                    <li class="mb-2"><i class="fa-solid fa-angle-right me-2 text-info"></i>Web Application Engineering</li>
-                    <li class="mb-2"><i class="fa-solid fa-angle-right me-2 text-info"></i>Enterprise ERP/CRM Systems</li>
-                    <li class="mb-2"><i class="fa-solid fa-angle-right me-2 text-info"></i>MySQL Database Architecture</li>
-                    <li class="mb-2"><i class="fa-solid fa-angle-right me-2 text-info"></i>Cloud Infrastructure & DevOps</li>
-                    <li class="mb-2"><i class="fa-solid fa-angle-right me-2 text-info"></i>UI/UX Product Strategy</li>
-                </ul>
-            </div>
-
-            <!-- Col 4: Quetta Address & Contact Info -->
-            <div class="col-lg-3 col-md-6">
-                <h6 class="text-uppercase text-white fw-bold mb-3">Headquarters</h6>
-                <ul class="list-unstyled small text-secondary">
-                    <li class="mb-3 d-flex align-items-start">
-                        <i class="fa-solid fa-location-dot me-3 mt-1 text-info fs-6"></i>
-                        <span>Suite 402, Executive Tech Tower, Zarghoon Road, Opp. Serena Hotel, Quetta, Balochistan, Pakistan</span>
-                    </li>
-                    <li class="mb-2 d-flex align-items-center">
-                        <i class="fa-solid fa-phone me-3 text-info"></i>
-                        <span>+92 (81) 283-9102 / +92 300 1234567</span>
-                    </li>
-                    <li class="mb-2 d-flex align-items-center">
-                        <i class="fa-solid fa-envelope me-3 text-info"></i>
-                        <span>contact@nexusdigital.pk</span>
-                    </li>
-                    <li class="d-flex align-items-center">
-                        <i class="fa-solid fa-clock me-3 text-info"></i>
-                        <span>Mon - Sat: 9:00 AM - 6:00 PM</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <hr class="border-secondary my-4">
-
-        <div class="row align-items-center small text-secondary">
-            <div class="col-md-6 text-center text-md-start">
-                &copy; <?php echo date("Y"); ?> NexusDigital Software Solutions. All rights reserved.
-            </div>
-            <div class="col-md-6 text-center text-md-end mt-2 mt-md-0">
-                <a href="#" class="text-secondary text-decoration-none me-3">Privacy Policy</a>
-                <a href="#" class="text-secondary text-decoration-none me-3">Terms of Service</a>
-                <a href="#" class="text-secondary text-decoration-none">SLA Agreement</a>
+        <!-- MINIMAL FOOTER STRIP (Appears on all sub-pages) -->
+        <div class="d-flex flex-column flex-sm-row align-items-center justify-content-between footer-text small">
+            <p class="mb-0">&copy; <?php echo date('Y'); ?> NexusDigital Systems. Enterprise SaaS Architecture. All Rights Reserved.</p>
+            <div class="d-flex gap-3 mt-2 mt-sm-0">
+                <a href="index.php" class="text-decoration-none footer-link">Home</a>
+                <a href="services.php" class="text-decoration-none footer-link">Services</a>
+                <a href="contact.php" class="text-decoration-none footer-link">Contact</a>
             </div>
         </div>
     </div>
 </footer>
 
-<script href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- DYNAMIC THEME FOOTER STYLING -->
+<style>
+    .footer-custom-bg {
+        background-color: var(--footer-bg, #f0f4f8) !important;
+        border-top: 1px solid var(--footer-border, #e2e8f0) !important;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .footer-heading {
+        color: var(--text-heading, #1e293b) !important;
+    }
+
+    .footer-text {
+        color: var(--text-muted, #64748b) !important;
+    }
+
+    .footer-link {
+        color: var(--text-muted, #64748b) !important;
+        transition: color 0.2s ease;
+    }
+
+    .footer-link:hover {
+        color: var(--brand-primary, #2563eb) !important;
+    }
+
+    .footer-divider {
+        border-color: var(--footer-border, rgba(0,0,0,0.08)) !important;
+        opacity: 1;
+    }
+
+    /* Dark Mode Theme Support across all selectors */
+    [data-theme="dark"] .footer-custom-bg,
+    [data-bs-theme="dark"] .footer-custom-bg,
+    html[data-theme="dark"] .footer-custom-bg,
+    body.dark-mode .footer-custom-bg {
+        --footer-bg: #0b0f19;
+        --footer-border: #1f2937;
+        --text-heading: #f8fafc;
+        --text-muted: #94a3b8;
+    }
+
+    [data-theme="dark"] .footer-divider,
+    [data-bs-theme="dark"] .footer-divider,
+    html[data-theme="dark"] .footer-divider,
+    body.dark-mode .footer-divider {
+        border-color: #1f2937 !important;
+    }
+</style>
+
+<!-- REQUIRED JAVASCRIPT FOR BOOTSTRAP TOGGLE MENU & DARK THEME -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

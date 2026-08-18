@@ -1,56 +1,69 @@
 <?php
-// NexusDigital - Services Page
-// Fetches and displays all active services from MySQL database
+// NexusDigital - Services Suite (Clean & Dynamic Layout)
 include 'db.php';
 include 'header.php';
 
-// Tamam services fetch karna
 $all_services = $conn->query("SELECT services.*, categories.name AS category_name 
                              FROM services 
                              LEFT JOIN categories ON services.category_id = categories.id 
                              ORDER BY services.id DESC");
 ?>
 
-<div class="bg-light py-5 border-bottom mb-4">
-    <div class="container text-center py-2">
-        <h1 class="fw-bold text-dark mb-2">Our Software Services</h1>
-        <p class="text-secondary mb-0" style="max-width: 600px; margin: 0 auto;">
-            Explore our complete suite of enterprise digital capabilities, high-performance database architectures, and custom software systems.
+<!-- HERO SECTION -->
+<section class="py-5 border-bottom" style="background: linear-gradient(135deg, var(--sec-light-bg) 0%, var(--sec-accent-bg) 100%);">
+    <div class="container py-3 text-center">
+        <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill fw-bold mb-3 d-inline-flex align-items-center gap-2">
+            <i class="fa-solid fa-layer-group"></i> CAPABILITIES & SOLUTIONS
+        </span>
+        <h1 class="fw-extrabold display-5 mb-3" style="color: var(--text-heading);">Our Software Services</h1>
+        <p class="mx-auto fs-6 text-muted" style="max-width: 680px;">
+            Explore our complete suite of custom software solutions, database architectures, and web development capabilities.
         </p>
     </div>
-</div>
+</section>
 
-<div class="container py-4 mb-5">
+<!-- MAIN SERVICES GRID SECTION -->
+<div class="container py-5">
     <div class="row g-4">
         <?php if ($all_services && $all_services->num_rows > 0): ?>
             <?php while ($row = $all_services->fetch_assoc()): ?>
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
-                        <?php if (!empty($row['image'])): ?>
-                            <img src="uploads/<?php echo htmlspecialchars($row['image']); ?>" class="card-img-top" style="height: 200px; object-fit: cover;" alt="<?php echo htmlspecialchars($row['title']); ?>">
+                <?php 
+                    $imgSrc = '';
+                    if (!empty($row['image'])) {
+                        $imgSrc = filter_var($row['image'], FILTER_VALIDATE_URL) ? $row['image'] : 'uploads/' . $row['image'];
+                    }
+                ?>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card card-service h-100 border rounded-4 overflow-hidden shadow-sm d-flex flex-column" style="background: var(--card-bg); border-color: var(--card-border) !important;">
+                        <?php if (!empty($imgSrc)): ?>
+                            <img src="<?php echo htmlspecialchars($imgSrc); ?>" class="card-img-top" style="height: 220px; object-fit: cover;" alt="<?php echo htmlspecialchars($row['title']); ?>">
                         <?php else: ?>
-                            <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
-                                <i class="fa-solid fa-laptop-code fa-3x opacity-50"></i>
+                            <div class="bg-secondary bg-opacity-10 text-muted d-flex align-items-center justify-content-center" style="height: 220px;">
+                                <i class="fa-solid fa-laptop-code fa-4x opacity-50"></i>
                             </div>
                         <?php endif; ?>
+                        
                         <div class="card-body p-4 d-flex flex-column">
-                            <span class="badge bg-primary text-white w-auto align-self-start mb-2 px-3 py-1">
-                                <?php echo htmlspecialchars($row['category_name'] ?? 'General'); ?>
+                            <span class="badge bg-primary bg-opacity-10 text-primary w-auto align-self-start mb-3 px-3 py-2 rounded-pill fw-bold small">
+                                <i class="fa-solid fa-tag me-1"></i> <?php echo htmlspecialchars($row['category_name'] ?? 'Software Engineering'); ?>
                             </span>
-                            <h5 class="fw-bold text-dark"><?php echo htmlspecialchars($row['title']); ?></h5>
-                            <p class="text-secondary small flex-grow-1">
+                            
+                            <h5 class="fw-extrabold mb-2" style="color: var(--text-heading);"><?php echo htmlspecialchars($row['title']); ?></h5>
+                            
+                            <p class="text-muted small mb-4 flex-grow-1" style="line-height: 1.6;">
                                 <?php 
                                     $desc = htmlspecialchars($row['description']);
-                                    echo (strlen($desc) > 100) ? substr($desc, 0, 100) . '...' : $desc;
+                                    echo (strlen($desc) > 130) ? substr($desc, 0, 130) . '...' : $desc;
                                 ?>
                             </p>
-                            <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                            
+                            <div class="d-flex justify-content-between align-items-center mt-auto pt-3 border-top" style="border-color: var(--card-border) !important;">
                                 <div>
-                                    <span class="text-muted d-block small">Price</span>
-                                    <span class="fw-bold text-dark">Rs. <?php echo number_format($row['price']); ?></span>
+                                    <span class="text-muted d-block extra-small text-uppercase fw-bold">Starting At</span>
+                                    <span class="fw-extrabold text-success fs-5">Rs. <?php echo number_format($row['price']); ?></span>
                                 </div>
-                                <a href="service_details.php?id=<?php echo $row['id']; ?>" class="btn btn-primary btn-sm px-3 fw-semibold rounded-3">
-                                    <i class="fa-solid fa-eye me-1"></i> View Details
+                                <a href="service_details.php?id=<?php echo $row['id']; ?>" class="btn btn-primary btn-sm px-3 py-2 rounded-3 fw-bold shadow-sm">
+                                    View Details <i class="fa-solid fa-arrow-right ms-1"></i>
                                 </a>
                             </div>
                         </div>
@@ -59,10 +72,23 @@ $all_services = $conn->query("SELECT services.*, categories.name AS category_nam
             <?php endwhile; ?>
         <?php else: ?>
             <div class="col-12 text-center py-5">
-                <p class="text-muted">Koi service available nahi hai.</p>
+                <div class="p-5 card border rounded-4" style="background: var(--card-bg); border-color: var(--card-border) !important;">
+                    <i class="fa-solid fa-folder-open fa-3x text-muted mb-3 opacity-50"></i>
+                    <h5 class="fw-bold" style="color: var(--text-heading);">No Services Available</h5>
+                </div>
             </div>
         <?php endif; ?>
     </div>
 </div>
+
+<style>
+    .card-service {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-service:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08) !important;
+    }
+</style>
 
 <?php include 'footer.php'; ?>

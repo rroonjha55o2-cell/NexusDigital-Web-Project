@@ -1,14 +1,12 @@
 <?php
-// Database Connection File
-// Connects NexusDigital PHP application with MySQL Database
-$host = "localhost";
+$host = "127.0.0.1";
 $user = "root";
-$pass = "";
-$db   = "nexus_agency_db";
+$pass = "root";
+$dbname = "nexus_digital_db";
 
-$conn = new mysqli($host, $user, $pass, $db);
+$conn = new mysqli($host, $user, $pass, $dbname);
 
 if ($conn->connect_error) {
-    die("Database Connection Failed: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 ?>
